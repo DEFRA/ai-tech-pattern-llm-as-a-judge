@@ -11,6 +11,14 @@ vector store
 - [ai-uc-rag-evaluation-runtime](https://github.com/DEFRA/ai-uc-rag-evaluation-runtime) Backend to run the LLM as a 
 judge evaluations.
 
+This pattern was based on the initial spikes looking at evaluating LLM results
+
+- [ai-spike-llm-validation](https://github.com/DEFRA/ai-spike-llm-validation/blob/main/experiment-writeup.md)
+- [ai-spike-evaluation-metrics](https://github.com/DEFRA/ai-spike-evaluation-metrics/blob/main/experiment-writeup.md)
+
+They both found that LLM as a judge could be a good metric for evaluating the results from generative AI, where we have
+a known good answer to compair the results to.
+
 ## Who this pattern is for
 
 This pattern is targeted at developers and QA looks to implement LLM as a Judge on CDP.
