@@ -68,31 +68,21 @@ LLM on retries. This can be seen in the queue_listener.py where a tuple containi
 checked to see if they are in the done list.
 
 This repository makes use of pydantic-ai and pydantic-evaluation. This library allows us to execute LLM models in 
-Bedrock and use the inference profiles and guardrails required by CDP. See how the models are constructed in 
-`judge_service.py`. Guardrails are added to the model settings, and the inference profile ARN is used as the Bedrock 
-model ID. A profile also needs to be set on the Bedrock model, constructed from the provider and the actual model ID, 
-so that pydantic-ai knows internally which model is being used.
+Bedrock and use the inference profiles with the guardrails required by CDP. See how the models are constructed in 
+`judge_service.py`. Guardrails and inference profile arn are added to the model settings. 
 
 ```python
-_provider = BedrockProvider(region_name=aws_region)
-_settings = BedrockModelSettings(
-      bedrock_guardrail_config={
-          "guardrailIdentifier": guardrails_id,
-          "guardrailVersion": guardrails_version,
-          "trace": "enabled",
-      }
-  )
-
 BedrockConverseModel(
-    inference_profile_arn,
-    provider=_provider,
-    profile=_provider.model_profile(model_id),
-    settings=_settings,
-)
+    model_id,
+    provider=BedrockProvider(region_name=aws_region),
+    settings=BedrockModelSettings(
+        bedrock_guardrail_config={
+            "guardrailIdentifier": guardrails_id,
+            "guardrailVersion": guardrails_version
+        },
+        bedrock_inference_profile=inference_profile_arn,
+    )
 ```
-At the time of writing not all models allow a provider to be set and may need to be extended to allow this. An example 
-of this can be seen with the bedrock embedding model in the ai-uc-rag-evaluation-data project 
-app/common/embedding/pydantic_ai.py.
 
 ## Licence
 
