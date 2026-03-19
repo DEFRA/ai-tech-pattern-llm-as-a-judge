@@ -16,8 +16,14 @@ This pattern was based on the initial spikes looking at evaluating LLM results
 - [ai-spike-llm-validation](https://github.com/DEFRA/ai-spike-llm-validation/blob/main/experiment-writeup.md)
 - [ai-spike-evaluation-metrics](https://github.com/DEFRA/ai-spike-evaluation-metrics/blob/main/experiment-writeup.md)
 
-They both found that LLM as a judge could be a good metric for evaluating the results from generative AI, where we have
-a known good answer to compair the results to.
+Key findings from the spikes:
+
+- LLM as a judge is an effective metric for evaluating generative AI responses against a known ground truth.
+- Of the implementations tested, pydantic-ai's `LLMJudge` performed best.
+- The rubric is critical to the quality of the judgement.
+
+Based on these findings, this pattern uses pydantic-ai and a list of rubrics can be provided to allow comparisons to be
+made in the judgement scores.
 
 ## Who this pattern is for
 
