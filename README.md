@@ -1,17 +1,15 @@
-# ai-uc-rag-evaluation-runtime
+# LLM as a Judge — Technical Pattern
 
 This repository contains a technical pattern for implementing LLM as a Judge. LLM-As-A-Judge requires asking an LLM to 
 score one response in relation to a ground-truth (the assumed ideal response), using a detailed prompt (rubric).
 
-The implementation of this pattern can be found in the 3 repositories
+The implementation of this pattern can be found in the following 3 repositories:
 
-- [ai-uc-rag-evaluation-ui](https://github.com/DEFRA/ai-uc-rag-evaluation-ui) UI for setting up data and viewing results
-- [ai-uc-rag-evaluation-data](https://github.com/DEFRA/ai-uc-rag-evaluation-data) Backend to access and insert data into
-vector store
-- [ai-uc-rag-evaluation-runtime](https://github.com/DEFRA/ai-uc-rag-evaluation-runtime) Backend to run the LLM as a 
-judge evaluations.
+- [ai-uc-rag-evaluation-ui](https://github.com/DEFRA/ai-uc-rag-evaluation-ui) — UI for setting up data and viewing results
+- [ai-uc-rag-evaluation-data](https://github.com/DEFRA/ai-uc-rag-evaluation-data) — Backend to access and insert data into the vector store
+- [ai-uc-rag-evaluation-runtime](https://github.com/DEFRA/ai-uc-rag-evaluation-runtime) — Backend to run the LLM as a judge evaluations
 
-This pattern was based on the initial spikes looking at evaluating LLM results
+This pattern was based on the initial spikes looking at evaluating LLM results:
 
 - [ai-spike-llm-validation](https://github.com/DEFRA/ai-spike-llm-validation/blob/main/experiment-writeup.md)
 - [ai-spike-evaluation-metrics](https://github.com/DEFRA/ai-spike-evaluation-metrics/blob/main/experiment-writeup.md)
@@ -22,12 +20,13 @@ Key findings from the spikes:
 - Of the implementations tested, pydantic-ai's `LLMJudge` performed best.
 - The rubric is critical to the quality of the judgement.
 
-Based on these findings, this pattern uses pydantic-ai and a list of rubrics can be provided to allow comparisons to be
-made in the judgement scores.
+Based on these findings, this pattern uses pydantic-ai with support for multiple rubrics, enabling comparison of 
+judgement scores.
 
 ## Who this pattern is for
 
-This pattern is targeted at developers and QA looks to implement LLM as a Judge on CDP.
+This pattern is targeted at developers and QA who are looking to implement LLM as a Judge on CDP or need to evaluate the
+response from generative AI in an automated fashion.
 
 ## The problem
 
@@ -68,11 +67,11 @@ stuck loop). For the same reason care must be taken to not rerun any evaluations
 LLM on retries. This can be seen in the queue_listener.py where a tuple containing the query, rubric, model_key are 
 checked to see if they are in the done list.
 
-This repository make use of pydantic-ai and pydantic-evaluation. This library allows us to execute LLM models in Bedrock
-and importantly use the inference profiles and guardrails that are required by CDP. See how the models are constructed
-in judge_service.py. Guardrails need to be added to the settings. The inference profile used for the bedrock model id.
-Finally a profile needs to be set on the bedrock model constructed from the provider and the actual model id being used.
-This is so pydantic-ai know internally what model is being used. 
+This repository makes use of pydantic-ai and pydantic-evaluation. This library allows us to execute LLM models in 
+Bedrock and use the inference profiles and guardrails required by CDP. See how the models are constructed in 
+`judge_service.py`. Guardrails are added to the model settings, and the inference profile ARN is used as the Bedrock 
+model ID. A profile also needs to be set on the Bedrock model, constructed from the provider and the actual model ID, 
+so that pydantic-ai knows internally which model is being used.
 
 ```python
 _provider = BedrockProvider(region_name=aws_region)
