@@ -19,9 +19,10 @@ Key findings from the spikes:
 - LLM as a judge is an effective metric for evaluating generative AI responses against a known ground truth.
 - Of the implementations tested, pydantic-ai's `LLMJudge` performed best.
 - The rubric is critical to the quality of the judgement.
+- The model used for the judge is also critical to the quality of the judgement.
 
-Based on these findings, this pattern uses pydantic-ai with support for multiple rubrics, enabling comparison of 
-judgement scores.
+Based on these findings, this pattern uses pydantic-ai with support for multiple rubrics and multiple models, enabling 
+comparison of judgement scores.
 
 ## Who this pattern is for
 
