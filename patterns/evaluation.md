@@ -14,7 +14,17 @@ knowledge snapshot. Manual checks are carried out to verify that answers from th
 previous answers. The snapshot is then made active and users can access the updated knowledge. This process is manual 
 and cannot be comprehensive.
 
-![As is process flow](../docs/images/evaluation-as-is.png)
+```mermaid
+flowchart LR
+    KM(["👤 Knowledge\nManager"])
+    A["Adds knowledge\nsources to\ngroup / base"]
+    B["Triggers ingestion /\ncreation of new\nsnapshot for group"]
+    C["Manual checks\n(via agent /\nchatbot)"]
+    D["Makes new\nsnapshot\nactive"]
+    U(["👤 AI Assistant\nUser"])
+
+    KM --> A --> B --> C --> D --> U
+```
 
 ### To-be process
 
@@ -23,7 +33,19 @@ knowledge snapshot. An automated regression test is triggered against the snapsh
 the RAG system and comparing the answers against known good answers. If the snapshot is judged to have provided good 
 enough answers, it is made active and users can access the updated knowledge.
 
-![To be process flow](../docs/images/evaluation-to-be.png)
+```mermaid
+flowchart LR
+    KM(["👤 Knowledge\nManager"])
+    A["Adds knowledge\nsources to\ngroup / base"]
+    B["Triggers ingestion /\ncreation of new\nsnapshot for group"]
+    C["Automated regression /\nevaluation of\nsnapshot"]
+    D{"Decision whether\nto deploy new\nsnapshot"}
+    E["Makes new\nsnapshot\nactive"]
+    U(["👤 AI Assistant\nUser"])
+
+    KM --> A --> B --> C --> D -->|Pass| E --> U
+    D -->|Fail| A
+```
 
 ### Requirements
 
